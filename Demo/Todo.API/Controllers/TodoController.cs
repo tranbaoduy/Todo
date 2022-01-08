@@ -72,7 +72,7 @@ namespace Todo.API.Controllers
                 _repositoryWrapper.InformationList.Create(model.InformationList);
                 // thêm mới công việc và upload file của mỗi công việc
                 Function.function fc = new function();
-                string path = @"C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.API\fileUpload" ;
+                string path = @"C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\fileUpload" ;
                 string pathString = System.IO.Path.Combine(path, model.InformationList.NameTodo);
                 System.IO.Directory.CreateDirectory(pathString);
                 List<Job> lstJob = new List<Job>();
@@ -162,7 +162,7 @@ namespace Todo.API.Controllers
                     return BadRequest();
                 }
                 //Xóa Folder
-                string path = @"C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.API\fileUpload" ;
+                string path = @"C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\fileUpload" ;
                 string pathString = System.IO.Path.Combine(path, model.InformationList.NameTodo);
                 Directory.Delete(pathString, true);               
                 //Xử lý list mới
@@ -207,7 +207,7 @@ namespace Todo.API.Controllers
                     return BadRequest();
                 }
                 //Xóa Folder
-                string path = @"C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.API\fileUpload" ;
+                string path = @"C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\fileUpload" ;
                 string pathString = System.IO.Path.Combine(path, NameTodo);
                 Directory.Delete(pathString, true);  
                 //Xóa 

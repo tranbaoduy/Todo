@@ -17,6 +17,8 @@ import {getFormattedDateTime} from '../../Element/function'
 import Countdown from 'react-countdown';
 import { makeStyles } from "@mui/styles" ;
 import {  HubConnectionBuilder,LogLevel } from "@microsoft/signalr"; 
+import Checkbox from '@mui/material/Checkbox';
+import { pink } from '@mui/material/colors';
 
 const useStyles = makeStyles({
     notification:{
@@ -32,9 +34,10 @@ const useStyles = makeStyles({
     }
   });
 
-
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 function Row(props) {
     const { row } = props;
+    const [lstDetail,setLstDetail] = useState(row.lstDetail);
     const [open, setOpen] = React.useState(false);
     const styleIsImport = {
         backgroundColor:"#ecb3be"
@@ -66,6 +69,29 @@ function Row(props) {
           await connect.invoke("SendMessage",tenduan)
     }
 
+    const handldeCheck = (event,item) =>{
+        let lst = [...lstDetail]
+        let itemUpdate = lst.indexOf(item);
+        lst[itemUpdate].Status = event.target.checked;
+        setLstDetail(pre => {
+            return [...lst]
+        })
+        let CheckStatusJob = {
+           nameTodo : item.NameTodo,
+           nameJob : item.NameJob,
+           status : item.Status
+        }
+        APIEndpoint().CheckFinish(CheckStatusJob)
+        .then(res => {
+            if(res.status === 200){
+              SendNotificaion(res.data.message)
+            }
+        })
+        .catch(err => {
+          console.log('err',err);
+        })
+    }
+
     return (
         <React.Fragment>
         <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -87,37 +113,42 @@ function Row(props) {
             <Collapse in={open} timeout="auto" unmountOnExit>
               <Box sx={{ margin: 1 }}>
                 <Typography variant="h6" gutterBottom component="div">
-                  Danh sách công việc
+                  Danh sách chi tiết
                 </Typography>
                 <Table size="small" aria-label="purchases">
                   <TableHead>
                     <TableRow>
+                      <TableCell>Hoàn Thành</TableCell>
                       <TableCell>Tên Công Việc</TableCell>
-                      <TableCell>Ngày Bắt Đầu</TableCell>
-                      <TableCell>Ngày Kết thúc</TableCell>
                       <TableCell>File Đính kèm</TableCell>
-                      <TableCell>Thời gian còn lại</TableCell>
+                      
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {row.lstDetail.map((detail) => (
+                    {lstDetail.map((detail) => (
                       <TableRow key={detail.NameJob} style={ detail.IsImportan === 1 ? styleIsImport : styleIsNotImport}>
                         <TableCell component="th" scope="row">
+                            <Checkbox
+                                {...label}
+                                checked={detail.Status}
+                                sx={{
+                                    color: pink[800],
+                                    '&.Mui-checked': {
+                                    color: pink[600],
+                                    },
+                                }}
+                                onChange={(event) => handldeCheck(event,detail)}
+                                />
+                        </TableCell>
+                        <TableCell >
                           {detail.NameJob}
                         </TableCell>
-                        <TableCell>{getFormattedDateTime(detail.ImplementationDate)}</TableCell>
-                        <TableCell>{getFormattedDateTime(detail.DateFinish)}</TableCell>
                         <TableCell>
                                 {
                                     detail.file.length > 0 ? detail.file.map((file) => <a key={file.fileName} href={file.formFiles} download={file.fileName}>{file.fileName}</a>)  : ""
                                 }
                         </TableCell>
-                        <TableCell>
-                            <Countdown date={Date.now() + CoverSeconds(detail.DateFinish,detail.NameJob)} >
-                                {/* {() =>SendNotificaion(detail.NameJob)} */}
-                            </Countdown>
                         
-                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

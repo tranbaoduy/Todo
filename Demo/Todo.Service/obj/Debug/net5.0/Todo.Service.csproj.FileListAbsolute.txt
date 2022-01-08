@@ -34,3 +34,21 @@ C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.
 C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.dll
 C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.Service\obj\Debug\net5.0\ref\Todo.Service.dll
 C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.pdb
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\appsettings.Development.json
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\appsettings.json
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Model.exe
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Service.deps.json
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Service.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\ref\Todo.Service.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Service.pdb
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Model.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\bin\Debug\net5.0\Todo.Model.pdb
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.csprojAssemblyReference.cache
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.AssemblyInfoInputs.cache
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.AssemblyInfo.cs
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.csproj.CopyComplete
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\ref\Todo.Service.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.Service\obj\Debug\net5.0\Todo.Service.pdb

@@ -1280,11 +1280,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Service\\Todo.Service.csproj",
+      "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Service\\Todo.Service.csproj",
       "projectName": "Todo.Service",
-      "projectPath": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Service\\Todo.Service.csproj",
+      "projectPath": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Service\\Todo.Service.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Service\\obj\\",
+      "outputPath": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Service\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -1304,8 +1304,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Model\\Todo.Model.csproj": {
-              "projectPath": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Model\\Todo.Model.csproj"
+            "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Model\\Todo.Model.csproj": {
+              "projectPath": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Model\\Todo.Model.csproj"
             }
           }
         }

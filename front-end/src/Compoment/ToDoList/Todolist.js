@@ -85,8 +85,6 @@ export default function Todolist() {
 
     const headcells = [
         {id: 'tenDuan' , label : 'Tên Dự Án',align:"center"},
-        {id: 'ngayBatDau' , label : 'Ngày Bắt Đầu',align:"center"},
-        {id: 'ngayKeThuc' , label : 'Ngày Kết thúc',align:"center"},
         {id: 'Action' , label : 'Action',align:"center"},
     ]
 
@@ -154,8 +152,8 @@ export default function Todolist() {
                             {TodoList.map(item => (
                                 <TableRow key={item.NameTodo}>
                                     <TableCell align='center' >{item.NameTodo}</TableCell>  
-                                    <TableCell align='center' >{getFormattedDate(item.DateBegin)}</TableCell> 
-                                    <TableCell align='center' >{getFormattedDate(item.DateEnd)}</TableCell> 
+                                    {/* <TableCell align='center' >{getFormattedDate(item.DateBegin)}</TableCell> 
+                                    <TableCell align='center' >{getFormattedDate(item.DateEnd)}</TableCell>  */}
                                     <TableCell align='center'>
                                         <EditIcon onClick={() => HandleEdit(item.NameTodo)}/><DeleteIcon onClick={() => HandleDelelte(item.NameTodo)}/>
                                     </TableCell>

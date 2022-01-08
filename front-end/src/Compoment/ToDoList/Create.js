@@ -118,10 +118,8 @@ export default function Create(props) {
 
     const headcells = [
         {id: 'tenJob' , label : 'Tên Công Việc',align:"center"},
-        {id: 'ngayBatDau' , label : 'Ngày Bắt Đầu',align:"center"},
-        {id: 'ngayKeThuc' , label : 'Ngày Kết thúc',align:"center"},
         {id: 'file' , label : 'File Đính kèm',align:"center"},
-        {id: 'quantrong' , label : 'QT',align:"center"},
+        {id: 'quantrong' , label : 'CV quan trọng',align:"center"},
     ]
 
     const style = undefined;
@@ -214,7 +212,7 @@ export default function Create(props) {
             .then(res => {
                 if(res.status === 200){
                     console.log('res',res);
-                    SendNotificaion("Dự án " + res.data.message + " vừa được tạo mới")
+                    SendNotificaion("Công việc " + res.data.message + " vừa được tạo mới")
                     let succes ={isOpen: true, type:'success' , message:'Thêm mới thành công'}
                     setNotify( pre => {
                         return {...pre,...succes}
@@ -249,7 +247,7 @@ export default function Create(props) {
                     </Grid>
                 </Grid>
                 <Grid container style={{paddingTop:"30px"}}>
-                    <Grid item xs={3}>
+                    <Grid item xs={7}>
                         <Input
                         label="Công việc"
                         name="NameJob"
@@ -258,7 +256,7 @@ export default function Create(props) {
                         error= {errors.NameJob}
                         />
                     </Grid>
-                    <Grid item xs={3}>
+                    {/* <Grid item xs={3}>
                         <DatetimeCustom
                         typePicker="DateTimePiker"
                         label="Ngày bắt đầu"
@@ -274,14 +272,14 @@ export default function Create(props) {
                         value={Job.DateFinish}
                         handleChange = {handlDateFinish}
                         />
-                    </Grid>
-                    <Grid item xs={3}>
+                    </Grid> */}
+                    <Grid item xs={5}>
                         <Grid container>
-                            <Grid item xs={8}>
+                            <Grid item xs={7}>
                                 <input  type="file" name="file" onChange={handleChangeFile}  multiple />
                             </Grid>
-                            <Grid item xs={4}>
-                                <Button variant="contained" color="primary" onClick={AddNew}>+</Button>
+                            <Grid item xs={5}>
+                                <Button variant="contained" color="primary" onClick={AddNew}>Thêm mới</Button>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -298,8 +296,6 @@ export default function Create(props) {
                             {lstDetail.map(item => (
                                 <TableRow key={item.NameJob}>
                                     <TableCell align='center' style={{width:"25%"}}>{item.NameJob}</TableCell>  
-                                    <TableCell align='center' style={{width:"15%"}}>{getFormattedDate(item.ImplementationDate)}</TableCell> 
-                                    <TableCell align='center' style={{width:"15%"}}>{getFormattedDate(item.DateFinish)}</TableCell> 
                                     <TableCell align='center' style={{width:"40%"}}>{getNameAttachFile(item.file)}</TableCell> 
                                     <TableCell align='center' style={{width:"5%"}}><Checkbox
                                                                                                 {...label}

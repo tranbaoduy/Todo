@@ -54,8 +54,6 @@ export default function Edit(props) {
 
     const headcells = [
         {id: 'tenJob' , label : 'Tên Công Việc',align:"center"},
-        {id: 'ngayBatDau' , label : 'Ngày Bắt Đầu',align:"center"},
-        {id: 'ngayKeThuc' , label : 'Ngày Kết thúc',align:"center"},
         {id: 'file' , label : 'File Đính kèm',align:"center"},
         {id: 'quantrong' , label : 'QT',align:"center"},
         {id: 'Action' , label : 'Action',align:"center"},
@@ -266,7 +264,7 @@ export default function Edit(props) {
                 </Grid>
             </Grid>     
             <Grid container style={{paddingTop:"30px"}}>
-                <Grid item xs={3}>
+                <Grid item xs={7}>
                     <Input
                     label="Công việc"
                     name="NameJob"
@@ -276,7 +274,7 @@ export default function Edit(props) {
                     style={{width:"95%"}}
                     />
                 </Grid>
-                <Grid item xs={3}>
+                {/* <Grid item xs={3}>
                     <DatetimeCustom
                     typePicker="DateTimePiker"
                     label="Ngày bắt đầu"
@@ -294,13 +292,13 @@ export default function Edit(props) {
                     handleChange = {handlDateFinish}
                     style={{width:"95%"}}
                     />
-                </Grid>
-                <Grid item xs={3}>
+                </Grid> */}
+                <Grid item xs={5}>
                     <Grid container>
-                        <Grid item xs={8}>
+                        <Grid item xs={7}>
                             <input  type="file" name="file" onChange={handleChangeFile}  multiple />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={5}>
                             <Button variant="contained" color="primary" onClick={AddNew}>+</Button>
                         </Grid>
                     </Grid>
@@ -313,8 +311,8 @@ export default function Edit(props) {
                         {lstDetail.map(item => (
                             <TableRow key={item.NameJob}>
                                 <TableCell align='center' style={{width:"25%"}}>{item.NameJob}</TableCell>  
-                                <TableCell align='center' style={{width:"10%"}}>{getFormattedDate(item.ImplementationDate)}</TableCell> 
-                                <TableCell align='center' style={{width:"10%"}}>{getFormattedDate(item.DateFinish)}</TableCell> 
+                                {/* <TableCell align='center' style={{width:"10%"}}>{getFormattedDate(item.ImplementationDate)}</TableCell> 
+                                <TableCell align='center' style={{width:"10%"}}>{getFormattedDate(item.DateFinish)}</TableCell>  */}
                                 <TableCell align='center' style={{width:"40%"}}>{getNameAttachFile(item.file)}</TableCell> 
                                 <TableCell align='center' style={{width:"5%"}}><Checkbox
                                                                                             {...label}

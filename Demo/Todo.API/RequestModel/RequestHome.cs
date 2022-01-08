@@ -18,6 +18,7 @@ namespace Todo.API.RequestModel
 
          public class JobInsert {
             public string NameJob { get; set; }
+            public string NameTodo { get; set; }
             public DateTime ImplementationDate { get; set; }
             public DateTime DateFinish { get; set; }
             public int Status { get; set; }
@@ -29,6 +30,13 @@ namespace Todo.API.RequestModel
         {
             public string fileName {get;set;}
             public string formFiles {get;set;}
+        }
+
+        public class CheckStatusJob
+        {
+            public string nameTodo {get;set;}
+            public string nameJob {get;set;}
+            public bool status {get;set;}
         }
        
     }

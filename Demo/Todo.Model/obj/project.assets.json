@@ -1357,11 +1357,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Model\\Todo.Model.csproj",
+      "projectUniqueName": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Model\\Todo.Model.csproj",
       "projectName": "Todo.Model",
-      "projectPath": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Model\\Todo.Model.csproj",
+      "projectPath": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Model\\Todo.Model.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ADMIN\\Desktop\\TodoList\\Demo\\Todo.Model\\obj\\",
+      "outputPath": "C:\\Users\\ADMIN\\Desktop\\New folder (2)\\Todo\\Demo\\Todo.Model\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

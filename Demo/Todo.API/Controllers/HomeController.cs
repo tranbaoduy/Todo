@@ -30,9 +30,8 @@ namespace Todo.API.Controllers
             {
                 Function.function fc = new function();
                 List<RequestHome.Index> data = new List<RequestHome.Index>();
-                DateTime Now = DateTime.Now.ToLocalTime();
                 List<Job> lstJob = _repositoryWrapper.Job.getAll().ToList();
-                List<string> lstTodo = lstJob.Where(x => x.DateFinish >= Now).Select(x => x.NameTodo).Distinct().ToList();
+                List<string> lstTodo = lstJob.Select(x => x.NameTodo).Distinct().ToList();
                 for(int k = 0; k < lstTodo.Count;  k ++){
                     List<Job> lstJobTodo = lstJob.Where(x => x.NameTodo == lstTodo[k]).ToList();
                     List<RequestHome.JobInsert> dataJob = new List<RequestHome.JobInsert>();
@@ -50,6 +49,7 @@ namespace Todo.API.Controllers
                         }
                         RequestHome.JobInsert item = new RequestHome.JobInsert(){
                             NameJob = lstJobTodo[i].NameJob,
+                            NameTodo = lstJobTodo[i].NameTodo,
                             ImplementationDate = lstJobTodo[i].ImplementationDate,
                             DateFinish = lstJobTodo[i].DateFinish,
                             Status = lstJobTodo[i].Status,
@@ -73,6 +73,35 @@ namespace Todo.API.Controllers
             }
             return Ok(result);
         }
-        
+
+        [HttpPost("CheckFinish")]
+        public async Task<IActionResult> CheckFinish (RequestHome.CheckStatusJob model)
+        {
+            Response<string> result = new Response<string>();
+            try
+            {
+                if(model == null){
+                    return BadRequest();
+                }
+                Job exist = _repositoryWrapper.Job.FindByCondition(x => x.NameJob == model.nameJob && x.NameTodo == model.nameTodo).FirstOrDefault();
+                if(model.status == true){
+                    exist.Status = 1;
+                    result.message = "Công việc " + model.nameJob.ToLower() +  " đã được hoàn thành!";
+                }
+                else{
+                     exist.Status = 0;
+                }
+                _repositoryWrapper.Job.Update(exist);
+                _repositoryWrapper.save();
+
+                
+                
+
+            }
+            catch(Exception ex){
+                result.message = ex.Message;
+            }
+            return Ok(result);
+        }
     }
 }

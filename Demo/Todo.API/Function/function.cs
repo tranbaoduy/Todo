@@ -27,7 +27,7 @@ namespace Todo.API.Function
         public async Task<List<DetailFile>> getFile(string NameTodo,string NameJob)
         {
             List<DetailFile> result = new List<DetailFile>();
-            string path = @"C:\Users\ADMIN\Desktop\TodoList\Demo\Todo.API\fileUpload";
+            string path = @"C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\fileUpload";
             string pathAttach = System.IO.Path.Combine(path, NameTodo);
             string pathJob = System.IO.Path.Combine(pathAttach, NameJob);
             //Lấy tất cả các file của công việc
