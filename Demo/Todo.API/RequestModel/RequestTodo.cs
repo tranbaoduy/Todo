@@ -12,19 +12,19 @@ namespace Todo.API.RequestModel
 
         public class Index
         {
+            public string Id {get;set;}
             public string NameTodo {get;set;}
             public DateTime DateCreate {get;set;}
-            public DateTime DateBegin {get;set;}
-            public DateTime DateEnd {get;set;}
+            public bool Status {get;set;}
         }
         public class Insert
         {
             public InformationList InformationList {get;set;}
-            public List<JobInsert> lstDetail {get;set;}
+            public List<FileModel> file {get;set;}
         }
 
         public class JobInsert {
-            public string NameTodo { get; set; }
+            public string IdTodo { get; set; }
             public string NameJob { get; set; }
             public DateTime ImplementationDate { get; set; }
             public DateTime DateFinish { get; set; }

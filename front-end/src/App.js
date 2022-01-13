@@ -5,7 +5,7 @@ import Navigation from './Layout/Navigation';
 import {Routes,Route} from "react-router-dom";
 import Todolist from './Compoment/ToDoList/Todolist';
 import Home from './Compoment/Home/Home'
-
+import Cookies from 'js-cookie'
 
 const useStyles = makeStyles({
     root:{
@@ -22,6 +22,10 @@ const useStyles = makeStyles({
   });
 
 export default function App() {
+    const status = Cookies.get('User');
+    if(status === undefined){
+      window.location.pathname ="/";
+    }
     const classes = useStyles();
     return (
         <div className={classes.root}>

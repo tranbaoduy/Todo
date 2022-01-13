@@ -148,3 +148,17 @@ C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\obj\Debug\net5.0\Todo.A
 C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\obj\Debug\net5.0\ref\Todo.API.dll
 C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\obj\Debug\net5.0\Todo.API.pdb
 C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\obj\Debug\net5.0\Todo.API.genruntimeconfig.cache
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\MailKit.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\MimeKit.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\NETCore.MailKit.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\BouncyCastle.Crypto.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

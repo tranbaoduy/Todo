@@ -21,20 +21,40 @@ namespace Todo.Model.Migrations
 
             modelBuilder.Entity("Todo.Model.InformationList", b =>
                 {
-                    b.Property<string>("NameTodo")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("NameTodo");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("Id")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("DateCreate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("DateCreate");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<string>("GuiId")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("GuiId");
+
+                    b.Property<bool>("Important")
+                        .HasColumnType("boolean")
+                        .HasColumnName("Important");
+
+                    b.Property<string>("NameTodo")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("NameTodo");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean")
                         .HasColumnName("Status");
 
-                    b.HasKey("NameTodo");
+                    b.Property<string>("UserName")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("UserName");
+
+                    b.HasKey("Id");
 
                     b.ToTable("InformationList");
                 });
@@ -50,6 +70,11 @@ namespace Todo.Model.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("DateFinish");
 
+                    b.Property<string>("IdTodo")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("IdTodo");
+
                     b.Property<DateTime>("ImplementationDate")
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("ImplementationDate");
@@ -62,11 +87,6 @@ namespace Todo.Model.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("NameJob");
-
-                    b.Property<string>("NameTodo")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("NameTodo");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer")

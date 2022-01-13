@@ -3,23 +3,18 @@ import { Form,Input,DatetimeCustom,Button,TableCustom,Alter } from '../../Elemen
 import {Grid,Typography,TableBody,TableRow,TableCell} from '@mui/material';
 import { pink } from '@mui/material/colors';
 import Checkbox from '@mui/material/Checkbox';
-import {getFormattedDate} from '../../Element/function'
+import Cookies from 'js-cookie'
 import { APIEndpoint } from './api'
 import {  HubConnectionBuilder,LogLevel } from "@microsoft/signalr";
+import FormControlLabel from '@mui/material/FormControlLabel';
 const newItem = {
     NameTodo : '',
     DateCreate: new Date(),
-    Status:0
+    Status:false,
+    UserName:'',
+    Important:false,
 }
 
-const itemDetail = {
-    NameJob: '',
-    ImplementationDate: new Date(),
-    DateFinish : new Date(),
-    Status: 0,
-    IsImportan:false,
-    file:[]
-}
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -27,8 +22,7 @@ const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 export default function Create(props) {
     const {setOpen} = props;
     const [InformationList,setInformationList] = useState(newItem);
-    const [Job,setJob] = useState(itemDetail);
-    const [lstDetail,setLstDetail] = useState([]);
+    const [lstFile,setLstFile] = useState([])
     const [errors,setErrors] = useState({})
     const [notify,setNotify] = useState({isOpen: false, type:'' , message:''})
     const handlDateCreate = (newValue) => {
@@ -49,64 +43,20 @@ export default function Create(props) {
        
     }
 
-    const onChangeInputJob = e => {
-        const {name,value} = e.target;
-        setJob({
-            ...Job,
-            [name]:value
-        })
-       
-    }
+    
 
-    const handlImplementationDate = (newValue) => {
-        setJob(pre => {
+    useEffect(() => {
+        setInformationList(pre => {
             return {
                 ...pre,
-                ImplementationDate: newValue
+                UserName: JSON.parse(Cookies.get('User')).UserName
             };
         })
-    }
-    const handlDateFinish = (newValue) => {
-        setJob(pre => {
-            return {
-                ...pre,
-                DateFinish: newValue
-            };
-        })
-    }
+    }, [])  
 
-    const handleCheckBox = (event) => {
-        setJob(pre => {
-            return {
-                ...pre,
-                IsImportan:  event.target.checked
-            };
-        })
-    };
 
-    const validateDetail = () => {
-        let temp = {};
-        temp.NameJob = Job.NameJob ? "" : "This field is requiued."
-        temp.ImplementationDate = Job.ImplementationDate > Job.DateFinish ? "Ngày bắt đầu không thể lớn hơn ngày kết thúc." : ""
-        setErrors(
-            pre => {
-                return {...pre,...temp}
-            }
-        )
-        return Object.values(temp).every(x => x === "");
-    }
 
-    const AddNew = async () => {
-        
-        if(validateDetail()){
-            for(let i = 0; i < Job.file.length ; i++){
-                Job.file[i].formFiles = await toBase64(Job.file[i].file)
-            }
-            setLstDetail(pre => {
-                return [...lstDetail,Job]
-            })
-        }
-    }
+
 
     const getNameAttachFile = (formdata) => {
         let FileName = '';
@@ -116,19 +66,7 @@ export default function Create(props) {
         return FileName.substring(0,FileName.length-1);
     }
 
-    const headcells = [
-        {id: 'tenJob' , label : 'Tên Công Việc',align:"center"},
-        {id: 'file' , label : 'File Đính kèm',align:"center"},
-        {id: 'quantrong' , label : 'CV quan trọng',align:"center"},
-    ]
-
-    const style = undefined;
-
-    const { 
-        TblContainer,
-        TblHead
-    } 
-    = TableCustom(headcells,style);
+   
 
     const toBase64 = file => new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -144,26 +82,22 @@ export default function Create(props) {
            for(let i= 0; i < event.target.files.length; i++){
                 let newItem = {
                     fileName : event.target.files[i].name,
-                    file: event.target.files[i]
+                    formFiles: await toBase64(event.target.files[i])
                 };
                 lstFormData.push(newItem);
            }
-           setJob(pre => {
-            return {
-                ...pre,
-                file: [...lstFormData]
-            };
-        })
+           setLstFile([...lstFormData])
         }
     }
 
     const handldeCheck = (event,item) =>{
-        let lst = [...lstDetail]
-        let itemUpdate = lst.indexOf(item);
-        lst[itemUpdate].IsImportan = event.target.checked;
-        setLstDetail(pre => {
-            return [...lst]
+        setInformationList(pre => {
+            return {
+                ...pre,
+                Important: event.target.checked,
+            };
         })
+        
     }
 
     const validate = () => {
@@ -193,25 +127,16 @@ export default function Create(props) {
 
 
 
+
     const save =  () => {
-        lstDetail.forEach(item => {
-            if(item.IsImportan === true){
-                item.IsImportan = 1
-            }else{
-                item.IsImportan = 0
-            }   
-        })
-        
         if(validate()){
             let insertItem = {
                 InformationList: InformationList,
-                lstDetail: lstDetail
+                file: lstFile
             }
-            console.log('insertItem',insertItem);
             APIEndpoint().Insert(insertItem)
             .then(res => {
                 if(res.status === 200){
-                    console.log('res',res);
                     SendNotificaion("Công việc " + res.data.message + " vừa được tạo mới")
                     let succes ={isOpen: true, type:'success' , message:'Thêm mới thành công'}
                     setNotify( pre => {
@@ -232,86 +157,53 @@ export default function Create(props) {
         <div>
             <Form encType="multipart/form-data">
                 <Grid container>
-                    <Typography variant="h4">Thêm mới dự án</Typography>
+                    <Typography variant="h4">Thêm mới Công Việc</Typography>
                 </Grid>
                 <Grid container style={{paddingTop:"20px"}}>
                     <Grid item xs={12}>
                         <Input
-                        label="Tên Dự án"
+                        label="Tên Công Việc"
                         name="NameTodo"
                         value={InformationList.NameTodo}
                         onChange={onChangeInput}
-                        style={{width:"100%"}}
                         error= {errors.NameTodo}
                         />
                     </Grid>
                 </Grid>
-                <Grid container style={{paddingTop:"30px"}}>
-                    <Grid item xs={7}>
-                        <Input
-                        label="Công việc"
-                        name="NameJob"
-                        value={Job.NameJob}
-                        onChange={onChangeInputJob}
-                        error= {errors.NameJob}
-                        />
-                    </Grid>
-                    {/* <Grid item xs={3}>
+                <Grid container style={{paddingTop:"20px"}}>
+                    <Grid item xs={12} >
                         <DatetimeCustom
-                        typePicker="DateTimePiker"
-                        label="Ngày bắt đầu"
-                        value={Job.ImplementationDate}
-                        handleChange = {handlImplementationDate}
-                        error= {errors.ImplementationDate}
+                            typePicker="DateTimePiker"
+                            label="Ngày giờ thực hiện"
+                            value={InformationList.DateCreate}
+                            handleChange = {handlDateCreate}    
                         />
-                    </Grid>
-                    <Grid item xs={3}>
-                        <DatetimeCustom
-                        typePicker="DateTimePiker"
-                        label="Ngày kết thúc"
-                        value={Job.DateFinish}
-                        handleChange = {handlDateFinish}
-                        />
-                    </Grid> */}
-                    <Grid item xs={5}>
-                        <Grid container>
-                            <Grid item xs={7}>
-                                <input  type="file" name="file" onChange={handleChangeFile}  multiple />
-                            </Grid>
-                            <Grid item xs={5}>
-                                <Button variant="contained" color="primary" onClick={AddNew}>Thêm mới</Button>
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
-                <Grid container style={{paddingTop:"30px"}}>
+                <Grid container style={{paddingTop:"20px"}}>
                     <Grid item xs={12}>
-                        <Typography variant="h6">Danh Sách Công việc</Typography>               
+                        <input  type="file" name="file" onChange={handleChangeFile}  multiple />
                     </Grid>
                 </Grid>
-                <Grid container style={{paddingTop:"30px"}}>
-                    <TblContainer>
-                    <TblHead></TblHead>
-                        <TableBody>
-                            {lstDetail.map(item => (
-                                <TableRow key={item.NameJob}>
-                                    <TableCell align='center' style={{width:"25%"}}>{item.NameJob}</TableCell>  
-                                    <TableCell align='center' style={{width:"40%"}}>{getNameAttachFile(item.file)}</TableCell> 
-                                    <TableCell align='center' style={{width:"5%"}}><Checkbox
-                                                                                                {...label}
-                                                                                                checked={item.IsImportan}
-                                                                                                sx={{
-                                                                                                    color: pink[800],
-                                                                                                    '&.Mui-checked': {
-                                                                                                    color: pink[600],
-                                                                                                    },
-                                                                                                }}
-                                                                                                onChange={(event) => handldeCheck(event,item)}
-                                                                                                /></TableCell>  
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </TblContainer>            
+                <Grid container style={{paddingTop:"20px"}}>
+                    <Grid item xs={12}>
+                        <FormControlLabel
+                            label="Quan Trọng"
+                            control={
+                                <Checkbox
+                                {...label}
+                                checked={InformationList.Important}
+                                sx={{
+                                    color: pink[800],
+                                    '&.Mui-checked': {
+                                    color: pink[600],
+                                    },
+                                }}
+                                onChange={(event) => handldeCheck(event)}
+                            />
+                            }
+                        />
+                    </Grid>
                 </Grid>
                 <Grid container style={{paddingTop:"30px",paddingLeft:"35%",paddingBottom:"15px"}} >
                     <div >

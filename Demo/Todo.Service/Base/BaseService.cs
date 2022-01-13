@@ -12,6 +12,7 @@ namespace Todo.Service.Base
         PageModel<T> Paging(PageParameter pagePara, Expression<Func<T, bool>> expression);
         IQueryable<T> getAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
+        T FindById(Expression<Func<T, bool>> expression);
         void Create(T Entity);
         void CreateMany(List<T> Entity);
         void Update(T Entity);
@@ -50,6 +51,11 @@ namespace Todo.Service.Base
         public virtual IQueryable<T> getAll()
         {
             return context.Set<T>().AsNoTracking();
+        }
+
+         public virtual T FindById(Expression<Func<T, bool>> expression)
+        {
+            return context.Set<T>().AsNoTracking().FirstOrDefault(expression);
         }
         public virtual void Create(T Entity)
         {

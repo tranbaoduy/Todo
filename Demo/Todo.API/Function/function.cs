@@ -1,3 +1,4 @@
+using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using System.Collections.Generic;
@@ -24,14 +25,13 @@ namespace Todo.API.Function
                 await System.IO.File.WriteAllBytesAsync(pathAttach,bytes);
             }
         }
-        public async Task<List<DetailFile>> getFile(string NameTodo,string NameJob)
+        public async Task<List<DetailFile>> getFile(string NameTodo)
         {
             List<DetailFile> result = new List<DetailFile>();
-            string path = @"C:\Users\ADMIN\Desktop\New folder (2)\Todo\Demo\Todo.API\fileUpload";
-            string pathAttach = System.IO.Path.Combine(path, NameTodo);
-            string pathJob = System.IO.Path.Combine(pathAttach, NameJob);
+            string startupPath = System.IO.Directory.GetCurrentDirectory();
+            string pathString = System.IO.Path.Combine(startupPath + "\\fileUpload", NameTodo);
             //Lấy tất cả các file của công việc
-            string[] fileEntries = Directory.GetFiles(pathJob);
+            string[] fileEntries = Directory.GetFiles(pathString);
             foreach (var item in fileEntries)
             {
                 FileInfo fi = new FileInfo(item);
@@ -139,5 +139,44 @@ namespace Todo.API.Function
             }
             return result;
         }
+
+        public string EncodePasswordtoBase64(string password)
+        {
+            try 
+            {
+                byte[] encData_byte = new byte[password.Length]; 
+                encData_byte = System.Text.Encoding.UTF8.GetBytes(password); 
+                string encodedData = Convert.ToBase64String(encData_byte); 
+                return encodedData; 
+            } 
+            catch (Exception ex) 
+            { 
+                throw new Exception("Error in base64Encode" + ex.Message); 
+            } 
+        }
+
+        public byte[] ObjectToByteArray(object obj)
+        {
+            if(obj == null)
+                return null;
+
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, obj);
+
+            return ms.ToArray();
+        }
+
+        public Object ByteArrayToObject(byte[] arrBytes)
+        {
+            MemoryStream memStream = new MemoryStream();
+            BinaryFormatter binForm = new BinaryFormatter();
+            memStream.Write(arrBytes, 0, arrBytes.Length);
+            memStream.Seek(0, SeekOrigin.Begin);
+            Object obj = (Object) binForm.Deserialize(memStream);
+
+            return obj;
+        }
+                    
     }
 }

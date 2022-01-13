@@ -11,20 +11,11 @@ namespace Todo.API.RequestModel
     {
         public class Index
         {
-            public string tenDuAn {get;set;}
-            public List<JobInsert> lstDetail {get;set;}
+            public InformationList Duan {get;set;}
+            public List<FileModel> lstFile {get;set;}
         }
 
 
-         public class JobInsert {
-            public string NameJob { get; set; }
-            public string NameTodo { get; set; }
-            public DateTime ImplementationDate { get; set; }
-            public DateTime DateFinish { get; set; }
-            public int Status { get; set; }
-            public int IsImportan { get; set; }
-            public List<FileModel> file {get;set;}
-        }
 
         public class FileModel
         {

@@ -10,9 +10,9 @@ namespace Todo.Model
     {
         [Key]
         public int Id { get; set; }
-        [Column("NameTodo")]
+        [Column("IdTodo")]
         [StringLength(500)]
-        public string NameTodo { get; set; }
+        public string IdTodo { get; set; }
         [Column("NameJob")]
         [StringLength(500)]
         public string NameJob { get; set; }

@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { makeStyles } from "@mui/styles"
 import {Toolbar ,Typography,Grid,TableBody,TableRow,TableCell }from '@mui/material';
 import {Input,Button,Form,Popup,TableCustom,} from '../../Element'
-import {getFormattedDate} from '../../Element/function'
+import {getFormattedDateTime} from '../../Element/function'
 import Create from './Create'
 import Edit from './Edit'
 import { APIEndpoint } from './api'
@@ -51,7 +51,7 @@ export default function Todolist() {
             APIEndpoint().Paging(obj)
             .then(res => {
                 setTodoList(res.data.data.data)
-                setTotalCount(res.data.data.cout );
+                setTotalCount(res.data.data.cout);
             })
             .catch(err => console.log(err))
         }
@@ -85,6 +85,8 @@ export default function Todolist() {
 
     const headcells = [
         {id: 'tenDuan' , label : 'Tên Dự Án',align:"center"},
+        {id: 'dateCreate' , label : 'Ngày Thực Hiện',align:"center"},
+        {id: 'status' , label : 'Trạng Thái',align:"center"},
         {id: 'Action' , label : 'Action',align:"center"},
     ]
 
@@ -150,12 +152,12 @@ export default function Todolist() {
                     <TblHead></TblHead>
                         <TableBody>
                             {TodoList.map(item => (
-                                <TableRow key={item.NameTodo}>
+                                <TableRow key={item.Id}>
                                     <TableCell align='center' >{item.NameTodo}</TableCell>  
-                                    {/* <TableCell align='center' >{getFormattedDate(item.DateBegin)}</TableCell> 
-                                    <TableCell align='center' >{getFormattedDate(item.DateEnd)}</TableCell>  */}
+                                    <TableCell align='center' >{getFormattedDateTime(item.DateCreate)}</TableCell> 
+                                    <TableCell align='center' >{item.Status === true ? <p>Hoàn Thành</p> : <p>Chưa Hoàn Thành</p>}</TableCell> 
                                     <TableCell align='center'>
-                                        <EditIcon onClick={() => HandleEdit(item.NameTodo)}/><DeleteIcon onClick={() => HandleDelelte(item.NameTodo)}/>
+                                        <EditIcon onClick={() => HandleEdit(item.Id)}/><DeleteIcon onClick={() => HandleDelelte(item.Id)}/>
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -166,10 +168,10 @@ export default function Todolist() {
                 </Grid>
             </div>
             </Form>
-            <Popup open={openCreate} setOpen = {closeAddNew} size="lg">
+            <Popup open={openCreate} setOpen = {closeAddNew} size="sm" style={{marginTop:"-120px"}}>
                 <Create setOpen = {closeAddNew} />
             </Popup>
-            <Popup open={openEdit} setOpen = {closeEdit} size="lg">
+            <Popup open={openEdit} setOpen = {closeEdit} size="sm" style={{marginTop:"-120px"}}>
                 <Edit setOpen = {closeEdit} itemEdit={itemEdit}/>
             </Popup>
             <Popup open={openDelete} setOpen = {closeDelete} size="lg">

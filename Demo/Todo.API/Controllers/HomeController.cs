@@ -22,47 +22,35 @@ namespace Todo.API.Controllers
             _repositoryWrapper = repositoryWrapper;
         }
 
+        [Authorize]
         [HttpGet("GetMissionInDay")]
         public async Task<IActionResult> GetMissionInDay ()
         {
             Response<List<RequestHome.Index>> result = new Response<List<RequestHome.Index>>();
             try
             {
+                var userName = HttpContext.Items["User"];
                 Function.function fc = new function();
                 List<RequestHome.Index> data = new List<RequestHome.Index>();
-                List<Job> lstJob = _repositoryWrapper.Job.getAll().ToList();
-                List<string> lstTodo = lstJob.Select(x => x.NameTodo).Distinct().ToList();
+                List<InformationList> lstTodo = _repositoryWrapper.InformationList.FindByCondition(x => x.DateCreate >= DateTime.Now).ToList();
                 for(int k = 0; k < lstTodo.Count;  k ++){
-                    List<Job> lstJobTodo = lstJob.Where(x => x.NameTodo == lstTodo[k]).ToList();
-                    List<RequestHome.JobInsert> dataJob = new List<RequestHome.JobInsert>();
-                    for(int i =0; i < lstJobTodo.Count; i++)
+                    var lstfile = await fc.getFile(lstTodo[k].NameTodo + " (" + lstTodo[k].DateCreate.ToString("dd-MM-yyyy") + ")");
+                    List<RequestHome.FileModel> datafile = new List<RequestHome.FileModel>();
+                    for(int i = 0; i < lstfile.Count;i ++)
                     {
-                        var lstfile = await fc.getFile(lstTodo[k],lstJobTodo[i].NameJob);
-                        List<RequestHome.FileModel> lst = new List<RequestHome.FileModel>();
-                        foreach (var itemFile in lstfile)
-                        {
-                            RequestHome.FileModel itemModel = new RequestHome.FileModel(){
-                                    fileName = itemFile.fileName,
-                                    formFiles = itemFile.base64String,
-                            };
-                            lst.Add(itemModel);
-                        }
-                        RequestHome.JobInsert item = new RequestHome.JobInsert(){
-                            NameJob = lstJobTodo[i].NameJob,
-                            NameTodo = lstJobTodo[i].NameTodo,
-                            ImplementationDate = lstJobTodo[i].ImplementationDate,
-                            DateFinish = lstJobTodo[i].DateFinish,
-                            Status = lstJobTodo[i].Status,
-                            IsImportan = lstJobTodo[i].IsImportan,
-                            file = lst
+                        RequestHome.FileModel itemfile = new RequestHome.FileModel(){
+                            fileName = lstfile[i].fileName,
+                            formFiles = lstfile[i].base64String
                         };
-                        dataJob.Add(item);
-                    } 
-                    RequestHome.Index dataItem = new RequestHome.Index(){
-                        tenDuAn = lstTodo[k],
-                        lstDetail = dataJob
+                        datafile.Add(itemfile);
+                    }
+                    RequestHome.Index itemTodo = new RequestHome.Index()
+                    {
+                        Duan = lstTodo[k],
+                        lstFile = datafile
+
                     };
-                    data.Add(dataItem);
+                    data.Add(itemTodo);
                 }
                 result.data = data;
                 result.message = "Lấy dữ liệu thành công";
@@ -74,34 +62,34 @@ namespace Todo.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("CheckFinish")]
-        public async Task<IActionResult> CheckFinish (RequestHome.CheckStatusJob model)
-        {
-            Response<string> result = new Response<string>();
-            try
-            {
-                if(model == null){
-                    return BadRequest();
-                }
-                Job exist = _repositoryWrapper.Job.FindByCondition(x => x.NameJob == model.nameJob && x.NameTodo == model.nameTodo).FirstOrDefault();
-                if(model.status == true){
-                    exist.Status = 1;
-                    result.message = "Công việc " + model.nameJob.ToLower() +  " đã được hoàn thành!";
-                }
-                else{
-                     exist.Status = 0;
-                }
-                _repositoryWrapper.Job.Update(exist);
-                _repositoryWrapper.save();
+        // [HttpPost("CheckFinish")]
+        // public async Task<IActionResult> CheckFinish (RequestHome.CheckStatusJob model)
+        // {
+        //     Response<string> result = new Response<string>();
+        //     try
+        //     {
+        //         if(model == null){
+        //             return BadRequest();
+        //         }
+        //         Job exist = _repositoryWrapper.Job.FindByCondition(x => x.NameJob == model.nameJob && x.NameTodo == model.nameTodo).FirstOrDefault();
+        //         if(model.status == true){
+        //             exist.Status = 1;
+        //             result.message = "Công việc " + model.nameJob.ToLower() +  " đã được hoàn thành!";
+        //         }
+        //         else{
+        //              exist.Status = 0;
+        //         }
+        //         _repositoryWrapper.Job.Update(exist);
+        //         _repositoryWrapper.save();
 
                 
                 
 
-            }
-            catch(Exception ex){
-                result.message = ex.Message;
-            }
-            return Ok(result);
-        }
+        //     }
+        //     catch(Exception ex){
+        //         result.message = ex.Message;
+        //     }
+        //     return Ok(result);
+        // }
     }
 }

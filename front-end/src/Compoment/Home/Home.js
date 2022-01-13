@@ -1,24 +1,18 @@
 import React,{useEffect,useState} from 'react'
 import {APIEndpoint} from './api'
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {getFormattedDateTime} from '../../Element/function'
 import Countdown from 'react-countdown';
 import { makeStyles } from "@mui/styles" ;
 import {  HubConnectionBuilder,LogLevel } from "@microsoft/signalr"; 
 import Checkbox from '@mui/material/Checkbox';
-import { pink } from '@mui/material/colors';
+
 
 const useStyles = makeStyles({
     notification:{
@@ -35,27 +29,21 @@ const useStyles = makeStyles({
   });
 
 const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-function Row(props) {
-    const { row } = props;
-    const [lstDetail,setLstDetail] = useState(row.lstDetail);
-    const [open, setOpen] = React.useState(false);
-    const styleIsImport = {
-        backgroundColor:"#ecb3be"
-    }
-    const styleIsNotImport = {
-        backgroundColor:"#fff"
-    }
+  
+const StyleImportant = {
+   backgroundColor: "beige"
+}
 
-    const CoverSeconds = (date,NameJob) => {
-        date = new Date(date)
-        const dateBegin = new Date();
-        if(date.getTime() - dateBegin.getTime()){
-            return (date.getTime() - dateBegin.getTime())
-        }
-        // return date.getTime()  / 1000   
-    }
+const StyleNone = {
+  backgroundColor: "#ffffff"
+}
 
-    //send notification
+
+
+export default function Home() {
+    const [lstTodo,setListTodo] = useState([])
+
+
     const [connection, setConnection] = useState(null);
     
     const SendNotificaion = async (tenduan) => {
@@ -68,131 +56,102 @@ function Row(props) {
           await connect.start();
           await connect.invoke("SendMessage",tenduan)
     }
-
-    const handldeCheck = (event,item) =>{
-        let lst = [...lstDetail]
-        let itemUpdate = lst.indexOf(item);
-        lst[itemUpdate].Status = event.target.checked;
-        setLstDetail(pre => {
-            return [...lst]
-        })
-        let CheckStatusJob = {
-           nameTodo : item.NameTodo,
-           nameJob : item.NameJob,
-           status : item.Status
-        }
-        APIEndpoint().CheckFinish(CheckStatusJob)
-        .then(res => {
-            if(res.status === 200){
-              SendNotificaion(res.data.message)
-            }
-        })
-        .catch(err => {
-          console.log('err',err);
-        })
-    }
-
-    return (
-        <React.Fragment>
-        <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-          <TableCell>
-            <IconButton
-              aria-label="expand row"
-              size="small"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-            </IconButton>
-          </TableCell>
-          <TableCell component="th" scope="row">
-            {row.tenDuAn}
-          </TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <Box sx={{ margin: 1 }}>
-                <Typography variant="h6" gutterBottom component="div">
-                  Danh sách chi tiết
-                </Typography>
-                <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Hoàn Thành</TableCell>
-                      <TableCell>Tên Công Việc</TableCell>
-                      <TableCell>File Đính kèm</TableCell>
-                      
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {lstDetail.map((detail) => (
-                      <TableRow key={detail.NameJob} style={ detail.IsImportan === 1 ? styleIsImport : styleIsNotImport}>
-                        <TableCell component="th" scope="row">
-                            <Checkbox
-                                {...label}
-                                checked={detail.Status}
-                                sx={{
-                                    color: pink[800],
-                                    '&.Mui-checked': {
-                                    color: pink[600],
-                                    },
-                                }}
-                                onChange={(event) => handldeCheck(event,detail)}
-                                />
-                        </TableCell>
-                        <TableCell >
-                          {detail.NameJob}
-                        </TableCell>
-                        <TableCell>
-                                {
-                                    detail.file.length > 0 ? detail.file.map((file) => <a key={file.fileName} href={file.formFiles} download={file.fileName}>{file.fileName}</a>)  : ""
-                                }
-                        </TableCell>
-                        
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </Box>
-            </Collapse>
-          </TableCell>
-        </TableRow>
-      </React.Fragment>
-     
-    );
-  }
-  
-  
-
-
-
-
-
-export default function Home() {
-    const [lstTodo,setListTodo] = useState([])
    
     useEffect(() => {
         APIEndpoint().GetMissionInDay()
         .then(res => {
+          if(res.status === 200){
             setListTodo(res.data.data)
+          }
         })
         .catch(err => {
             console.log('err',err);
         })
     }, [])
+
+    const renderer = ({ hours, minutes, seconds, completed ,row}) => {
+      let hh = hours.toString().padStart(2, '0');
+      let mm = minutes.toString().padStart(2, '0');
+      let sec = seconds.toString().padStart(2, '0');
+      if (completed) {
+        // Render a completed state
+        return <p>Bắt đầu</p>;
+      } 
+      else if(hours === 0 && minutes === 5 && seconds == 0){
+        SendNotificaion ("Công việc " + row.Duan.NameTodo + " sẽ bắt đầu sau 5 phút nữa !!!");
+        return <span>{hh}:{mm}:{sec}</span>;
+      }
+      else {
+        // Render a countdown
+        return <span>{hh}:{mm}:{sec}</span>;
+      }
+    };
+
+    const converTime = (time) => {
+        let begin  = new Date(time).getTime();
+        let Now = new Date().getTime();
+        return (begin - Now)
+    }
+
+    
+    const handldeCheck = (event,item) =>{
+        console.log(item)
+        let index = lstTodo.indexOf(item);
+        lstTodo[index].Duan.Status = event.target.checked;
+        setListTodo([...lstTodo]);
+        let obj = [
+          {
+              "op": "replace",
+              "path":"/Status",
+              "value": item.Duan.Status
+          }
+        ]
+        APIEndpoint().Patch(item.Duan.Id,obj)
+        .then(res => {
+          console.log('res',res);
+        })
+        .catch(err => {
+          console.log('err',err);
+        })
+
+    }
+
+    
+
     return (
         <div style={{paddingTop: "50px",position:"relative"}}>
             <TableContainer component={Paper}>
                 <Table aria-label="collapsible table">
                 <TableHead>
                     <TableRow>
-                    <TableCell />
-                    <TableCell>Danh sách dự án</TableCell>
+                        <TableCell align='center'>Hoàn thành</TableCell>
+                        <TableCell align='center'>Tên công việc</TableCell>
+                        <TableCell align='center'>Thời gian bắt đầu</TableCell>
+                        <TableCell align='center'>File đính kèm</TableCell>
+                        <TableCell align='center'>Thời gian đếm ngược</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {lstTodo.map((row) => (
-                        <Row key={row.tenDuAn} row={row} />
+                        <TableRow key={row.Duan.GuiId} style={row.Duan.Important === true ? StyleImportant : StyleNone}>
+                          <TableCell align='center' >
+                              <Checkbox
+                              {...label}
+                              checked={row.Duan.Status}
+                              onChange={(event) => handldeCheck(event,row)}
+                          />
+                          </TableCell>
+                          <TableCell align='center' >{row.Duan.NameTodo}</TableCell>  
+                          <TableCell align='center' >{getFormattedDateTime(row.Duan.DateCreate)}</TableCell>
+                          <TableCell align='center'>
+                            {
+                              row.lstFile.length > 0 ? row.lstFile.map((file) => <a key={file.fileName} href={file.formFiles} download={file.fileName}>{file.fileName}</a>)  : ""
+                            }  
+                          </TableCell> 
+                          <TableCell align='center'>
+                            <Countdown date={Date.now() + converTime(row.Duan.DateCreate)} renderer={({ hours, minutes, seconds, completed }) => renderer({ hours, minutes, seconds, completed,row })}/>
+                          </TableCell>
+                        </TableRow>
                     ))}
                 </TableBody>
                 </Table>

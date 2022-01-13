@@ -3,7 +3,10 @@ import {Grid,Typography} from '@mui/material'
 import { makeStyles } from "@mui/styles"
 import {Button,Input,Form,Popup} from '../Element'
 import Resigter from '../Compoment/Resigter/Resigter'
+import Forgotpass from '../Compoment/Forgotpass/Forgotpass'
 import {APIEndpoint} from '../Compoment/Resigter/api'
+import Cookies from 'js-cookie'
+
 const useStyles = makeStyles({
     root:{
         '& .MuiButton-containedPrimary':{
@@ -28,7 +31,7 @@ const useStyles = makeStyles({
     },
     content: {
         backgroundColor:"#fff",
-        height:"400px",
+        height:"450px",
         width:"350px",
         display:"flex",
         alignItems:"center",
@@ -45,8 +48,11 @@ const UserLogin = {
 export default function Login() {
     const classes = useStyles();
     const [User,setUser] = useState(UserLogin)
-    const [openResigter,setOpenResigter] = useState(false)
+    
     const [errors,setErrors] = useState({})
+
+    //Đăng ký
+    const [openResigter,setOpenResigter] = useState(false)
     const onResigter = () => {
         setOpenResigter(true);
     }
@@ -54,6 +60,17 @@ export default function Login() {
     const closeResigter = () => {
         setOpenResigter(false);
     }
+
+    //Quên mật khẩu
+    const [openResetPassWord,setResetPassWord] = useState(false)
+    const onResetPassWord = () => {
+        setResetPassWord(true); 
+    }
+
+    const closeResetPassWord = () => {
+        setResetPassWord(false); 
+    }
+
 
     const onChangeInput = e => {
         const {name,value} = e.target;
@@ -87,11 +104,13 @@ export default function Login() {
         return Object.values(temp).every(x => x === "");
     }
 
-    const onLogin = () => {
+
+    const onLogin = async () => {
         if(Validate()){
             APIEndpoint().Login(User)
             .then(res => {
                 if(res.data.status === "200"){
+                    Cookies.set('User',JSON.stringify(res.data.data));
                     window.location.pathname ="/Home/DS";
                 }
                 if(res.data.status === '404'){
@@ -130,10 +149,14 @@ export default function Login() {
                     />
                 </Grid>
                 <Button variant="contained" color="primary" onClick={onLogin}>Đăng nhập</Button>
+                <p style={{cursor:"pointer"}} onClick={onResetPassWord}>Quên mật khẩu</p>
                 <p style={{cursor:"pointer"}} onClick={onResigter}>Đăng Ký</p>
             </Form>
             <Popup open={openResigter} setOpen = {closeResigter} size="lg">
                 <Resigter setOpen = {closeResigter} />
+            </Popup>
+            <Popup open={openResetPassWord} setOpen = {closeResetPassWord} size="sm">
+                <Forgotpass setOpen = {closeResetPassWord} />
             </Popup>
         </div>
     )

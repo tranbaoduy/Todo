@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -7,8 +8,11 @@ using Microsoft.OpenApi.Models;
 using Todo.Model;
 using Microsoft.EntityFrameworkCore;
 using Todo.Service.Service;
-using Microsoft.AspNetCore.SignalR;
 using Todo.API.Hubs;
+using Todo.API.Helpers;
+using Todo.Service.RequestModel;
+using Newtonsoft.Json.Serialization;
+
 namespace Todo.API
 {
     public class Startup
@@ -23,9 +27,16 @@ namespace Todo.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            });
 
-            services.AddControllers()
-            .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
+            // .AddJsonOptions(opts =>{opts.JsonSerializerOptions.PropertyNamingPolicy = null;
+            // })
+            services.AddMemoryCache();
+            services.Configure<MailSettings>(Configuration.GetSection("MailSettings"));
+            services.AddTransient<IMailService, MailService>();
             services.AddSignalR(options => 
             { 
                 options.EnableDetailedErrors = true; 
@@ -44,11 +55,11 @@ namespace Todo.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(opt =>
-            opt.WithOrigins("http://localhost:3000")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()
-            );
+                opt.WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+                );
             
             if (env.IsDevelopment())
             {
@@ -58,10 +69,10 @@ namespace Todo.API
             }
 
             //app.UseHttpsRedirection();
-
+           
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
