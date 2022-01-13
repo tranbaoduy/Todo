@@ -169,7 +169,7 @@ namespace Todo.API.Controllers
         } 
 
         [HttpPost("CheckCode")]
-        public IActionResult CheckUser(RequestModel.RequestUser.ObjResetPassWprd model)
+        public IActionResult CheckCode(RequestModel.RequestUser.ObjResetPassWprd model)
         {
             Response<string> result = new Response<string>();
             try
