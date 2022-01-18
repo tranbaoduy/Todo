@@ -61,7 +61,7 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
-        [ServiceFilter(typeof(TodoFillter))]
+      
         [HttpPost("Insert")]
         public IActionResult Insert(RequestTodo.Insert model)
         {
@@ -131,7 +131,7 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
-        [ServiceFilter(typeof(TodoFillter))]
+       
         [HttpPut("Update/{id}")]
         public IActionResult Update(string id,RequestTodo.Insert model)
         {
@@ -169,7 +169,7 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
-        [ServiceFilter(typeof(TodoFillter))]
+       
         [HttpDelete("Delete/{IdTodo}")]
         public IActionResult Delete(string IdTodo)
         {

@@ -39,7 +39,10 @@ using System.Timers;
                 List<InformationList> lstContentNotification = dbContext.informationList.Where(x => x.DateCreate > DateTime.Now && x.DateCreate < Plus10Minute).ToList();
                 if(lstContentNotification.Count > 0){
                     List<InfomationNotification> lstInfomationNotification = dbContext.InfomationNotification.Where(x => lstContentNotification.Select(y => y.UserName).Contains(x.UserName)).ToList();
-                    await _IPushNotification.SendNotification(lstContentNotification,lstInfomationNotification);
+                    if(lstInfomationNotification.Count > 0){
+                        await _IPushNotification.SendNotification(lstContentNotification,lstInfomationNotification);
+                    }
+                    
                 }
                
                
