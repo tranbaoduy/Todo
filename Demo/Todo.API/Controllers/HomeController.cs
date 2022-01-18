@@ -1,16 +1,14 @@
-using System.ComponentModel;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Todo.Service.Service;
 using Todo.API.RequestModel;
-using System.IO;
 using Todo.Model;
 using Todo.API.Function;
-using Todo.Service;
+
 namespace Todo.API.Controllers
 {
     [ApiController]
@@ -24,7 +22,7 @@ namespace Todo.API.Controllers
 
         [Authorize]
         [HttpGet("GetMissionInDay")]
-        public async Task<IActionResult> GetMissionInDay ()
+        public IActionResult GetMissionInDay()
         {
             Response<List<RequestHome.Index>> result = new Response<List<RequestHome.Index>>();
             try
@@ -34,7 +32,7 @@ namespace Todo.API.Controllers
                 List<RequestHome.Index> data = new List<RequestHome.Index>();
                 List<InformationList> lstTodo = _repositoryWrapper.InformationList.FindByCondition(x => x.DateCreate >= DateTime.Now).ToList();
                 for(int k = 0; k < lstTodo.Count;  k ++){
-                    var lstfile = await fc.getFile(lstTodo[k].NameTodo + " (" + lstTodo[k].DateCreate.ToString("dd-MM-yyyy") + ")");
+                    var lstfile = fc.getFile(lstTodo[k].NameTodo + " (" + lstTodo[k].DateCreate.ToString("dd-MM-yyyy") + ")");
                     List<RequestHome.FileModel> datafile = new List<RequestHome.FileModel>();
                     for(int i = 0; i < lstfile.Count;i ++)
                     {

@@ -7,6 +7,7 @@ import Todolist from './Compoment/ToDoList/Todolist';
 import Home from './Compoment/Home/Home'
 import Cookies from 'js-cookie'
 
+
 const useStyles = makeStyles({
     root:{
       height: "100vh",
@@ -22,6 +23,8 @@ const useStyles = makeStyles({
   });
 
 export default function App() {
+
+
     const status = Cookies.get('User');
     if(status === undefined){
       window.location.pathname ="/";

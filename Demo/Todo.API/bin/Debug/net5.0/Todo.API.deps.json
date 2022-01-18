@@ -38,6 +38,7 @@
           "Swashbuckle.AspNetCore": "5.6.3",
           "Todo.Model": "1.0.0",
           "Todo.Service": "1.0.0",
+          "WebPush": "1.0.12",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "5.0.0.0",
@@ -1477,6 +1478,21 @@
         "dependencies": {
           "System.Runtime": "4.3.0",
           "System.Runtime.Handles": "4.3.0"
+        }
+      },
+      "WebPush/1.0.12": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1",
+          "Portable.BouncyCastle": "1.8.5"
+        },
+        "runtime": {
+          "lib/net5.0/WebPush.dll": {
+            "assemblyVersion": "1.0.11.0",
+            "fileVersion": "1.0.11.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/WebPush.dll": {}
         }
       },
       "Todo.Model/1.0.0": {
@@ -4088,6 +4104,13 @@
       "sha512": "sha512-/WVwCBgyEPtwUEg8Hb4CMgpnTvtKQcYcw5hRQvtOf7G0BgwIY0UM0SYYa8fyDmx0YnFCK9CUg0ROIb/ki/94vg==",
       "path": "system.threading.threadpool/4.3.0",
       "hashPath": "system.threading.threadpool.4.3.0.nupkg.sha512"
+    },
+    "WebPush/1.0.12": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vc91Uby6UaQQijOPRY4B1tWFaQJlbfOyfOMIPpdAT6mANcPhHcvDJeLjr6B0Adjij71WIAH718MC7coQdrJZAw==",
+      "path": "webpush/1.0.12",
+      "hashPath": "webpush.1.0.12.nupkg.sha512"
     },
     "Todo.Model/1.0.0": {
       "type": "project",

@@ -22,7 +22,6 @@ export function getFormattedDateTime(date) {
 export function convertIso(date)
 {
     date = new Date(date);
-   
     var day = date.getDate().toString().padStart(2, '0');      
     var month = (1 + date.getMonth()).toString().padStart(2, '0');  
     var year = date.getFullYear();  

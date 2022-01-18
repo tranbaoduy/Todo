@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState,useEffect} from 'react'
 import {Grid,Typography} from '@mui/material'
 import { makeStyles } from "@mui/styles"
 import {Button,Input,Form,Popup} from '../Element'
@@ -6,6 +6,7 @@ import Resigter from '../Compoment/Resigter/Resigter'
 import Forgotpass from '../Compoment/Forgotpass/Forgotpass'
 import {APIEndpoint} from '../Compoment/Resigter/api'
 import Cookies from 'js-cookie'
+import * as serviceWorkerRegistration from '../serviceWorkerRegistration';
 
 const useStyles = makeStyles({
     root:{
@@ -48,8 +49,19 @@ const UserLogin = {
 export default function Login() {
     const classes = useStyles();
     const [User,setUser] = useState(UserLogin)
-    
     const [errors,setErrors] = useState({})
+
+    // useEffect(() => {
+    //     serviceWorkerRegistration.getUserSubscription()
+    //     .then(info => {
+    //         // var obj = {
+    //         //     endpoint = info.endpoint,
+    //         //     key = info.getKey('p256dh'),
+    //         //     auth = info.getKey('auth'),  
+    //         // }
+            
+    //     })
+    // }, [])
 
     //Đăng ký
     const [openResigter,setOpenResigter] = useState(false)

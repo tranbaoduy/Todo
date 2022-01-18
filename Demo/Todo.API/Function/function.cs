@@ -2,10 +2,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Todo.Model;
-using Microsoft.AspNetCore.Http;
 using Todo.API.RequestModel;
 
 namespace Todo.API.Function
@@ -25,7 +21,7 @@ namespace Todo.API.Function
                 await System.IO.File.WriteAllBytesAsync(pathAttach,bytes);
             }
         }
-        public async Task<List<DetailFile>> getFile(string NameTodo)
+        public List<DetailFile> getFile(string NameTodo)
         {
             List<DetailFile> result = new List<DetailFile>();
             string startupPath = System.IO.Directory.GetCurrentDirectory();

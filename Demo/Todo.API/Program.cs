@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Todo.API.BackGroundService;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Todo.API
 {
@@ -21,6 +23,7 @@ namespace Todo.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .ConfigureServices(ser => ser.AddHostedService<Background>());
     }
 }

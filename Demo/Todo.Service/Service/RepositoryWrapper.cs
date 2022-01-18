@@ -11,6 +11,7 @@ namespace Todo.Service.Service
         IUserService User { get; }
         IJobService Job {get;}
         IInformationListService InformationList {get;}
+        IInformationNotificationService InformationNotification {get; }
         void save();
     }
     public class RepositoryWrapper : IRepositoryWrapper
@@ -19,13 +20,27 @@ namespace Todo.Service.Service
         private IUserService _User;
         private IJobService _Job;
         private IInformationListService _InformationList;
+        private IInformationNotificationService _IInformationNotification;
+
 
         public RepositoryWrapper(DbApiContext context)
         {
             _context = context;
         }
 
-          public IInformationListService InformationList
+         public IInformationNotificationService InformationNotification
+        {
+            get
+            {
+                if (_IInformationNotification == null)
+                {
+                    _IInformationNotification = new InformationNotificationService(_context);
+                }
+                return _IInformationNotification;
+            }
+        }
+
+        public IInformationListService InformationList
         {
             get
             {

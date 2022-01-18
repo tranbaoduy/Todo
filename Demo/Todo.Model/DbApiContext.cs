@@ -13,5 +13,6 @@ namespace Todo.Model
         public DbSet<User> user {get;set;}
         public DbSet<Job> job {get;set;}
         public DbSet<InformationList> informationList {get;set;}
+        public DbSet<InfomationNotification> InfomationNotification {get;set;}
     }
 }

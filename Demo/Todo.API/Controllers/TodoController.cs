@@ -1,8 +1,6 @@
-using System.Globalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Todo.Service.Service;
 using Todo.API.RequestModel;
@@ -12,6 +10,8 @@ using Todo.API.Function;
 using Todo.Service;
 using Todo.Service.RequestModel;
 using Microsoft.AspNetCore.JsonPatch;
+using Todo.API.ActionFillter;
+
 namespace Todo.API.Controllers
 {
     [ApiController]
@@ -28,7 +28,7 @@ namespace Todo.API.Controllers
 
         [Authorize]
         [HttpPost("Paging")]
-        public async Task<IActionResult> Paging(PageParameter model)
+        public IActionResult Paging(PageParameter model)
         {
             Response<PageModel<RequestTodo.Index>> result = new Response<PageModel<RequestTodo.Index>>();
             try
@@ -61,8 +61,9 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
+        [ServiceFilter(typeof(TodoFillter))]
         [HttpPost("Insert")]
-        public async Task<IActionResult> Insert(RequestTodo.Insert model)
+        public IActionResult Insert(RequestTodo.Insert model)
         {
             Response<string> result = new Response<string>();
             try
@@ -93,8 +94,9 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
+         
         [HttpGet("GetInformationList/{id}")]
-        public async Task<IActionResult> GetInformationList(string id)
+        public IActionResult GetInformationList(string id)
         {
             Response<RequestTodo.Insert> result = new Response<RequestTodo.Insert>();
             try
@@ -102,7 +104,7 @@ namespace Todo.API.Controllers
                 var user = (UserResponse)HttpContext.Items["User"];
                 Function.function fc = new function();
                 InformationList Parent = _repositoryWrapper.InformationList.FindByCondition(x => x.GuiId == id && x.UserName == user.UserName).FirstOrDefault();
-                var lstfile = await fc.getFile(Parent.NameTodo + " (" + Parent.DateCreate.ToString("dd-MM-yyyy") +")");
+                var lstfile = fc.getFile(Parent.NameTodo + " (" + Parent.DateCreate.ToString("dd-MM-yyyy") +")");
                 List<RequestTodo.FileModel> lst = new List<RequestTodo.FileModel>();
                 foreach (var itemFile in lstfile)
                 {
@@ -129,8 +131,9 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
+        [ServiceFilter(typeof(TodoFillter))]
         [HttpPut("Update/{id}")]
-        public async Task<IActionResult> Update(string id,RequestTodo.Insert model)
+        public IActionResult Update(string id,RequestTodo.Insert model)
         {
             Response<string> result = new Response<string>();
             try
@@ -166,8 +169,9 @@ namespace Todo.API.Controllers
         }
 
         [Authorize]
+        [ServiceFilter(typeof(TodoFillter))]
         [HttpDelete("Delete/{IdTodo}")]
-        public async Task<IActionResult> Delete(string IdTodo)
+        public IActionResult Delete(string IdTodo)
         {
             Response<string> result = new Response<string>();
             try
